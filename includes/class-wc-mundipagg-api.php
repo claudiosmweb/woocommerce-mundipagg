@@ -265,9 +265,9 @@ class WC_Mundipagg_API {
 			'TaxDocumentNumber'         => '',
 			'TaxDocumentTypeEnum'       => 'CPF', // CPF or CNPJ
 			// 'TwitterId'                 => '',
-			'HomePhone'                 => $this->get_only_numbers( $order->billing_phone ),
+			'HomePhone'                 => str_replace( array( '-', ' ' ), '', $order->billing_phone ),
 			'WorkPhone'                 => '',
-			'MobilePhone'               => isset( $order->billing_cellphone ) ? $this->get_only_numbers( $order->billing_cellphone ) : '',
+			'MobilePhone'               => isset( $order->billing_cellphone ) ? str_replace( array( '-', ' ' ), '',  $order->billing_cellphone ) : '',
 			'BuyerAddressCollection'    => array(
 				array(
 					'City'            => $order->billing_city,
@@ -304,7 +304,7 @@ class WC_Mundipagg_API {
 
 			if ( 2 == $order->billing_persontype ) {
 				$request['createOrderRequest']['Buyer']['PersonTypeEnum']      = 'Company';
-				$request['createOrderRequest']['Buyer']['TaxDocumentNumber']   = str_replace( array( '-', '.' ), '', $order->billing_cnpj );
+				$request['createOrderRequest']['Buyer']['TaxDocumentNumber']   = str_replace( array( '-', '.', '/' ), '', $order->billing_cnpj );
 				$request['createOrderRequest']['Buyer']['TaxDocumentTypeEnum'] = 'CNPJ';
 			}
 		}
